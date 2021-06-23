@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --white-50: #FFFFFF;
+  --white-100: #FEFEFE;
+  --white-150: #F8F8F8;
+
+  --black: #29292E;
+
+  --purple: #835AFD;
+
+  --red-500: #ea4335;
+  --red-700: #E73F5D;
+  
+  --gray-50: #DBDCDD;
+  --gray-200: #A8A8B3;
+  --gray-800: #737380;
+
+  --green-500: #04D361;
+
+  --pink-50: #D67EE2;
+  --pink-100: #E559F9;
+}
+
+@media (max-width: 1080px) {
+  html {
+    font-size: 93.75%;
+  }
+}
+@media (max-width: 720px) {
+  html {
+    font-size: 87.5%;
+  }
+}
+
+body {
+  background: var(--white-150);
+}
+
+body, input, textarea, select, button {
+  font: 400 1rem Roboto, sans-serif;
+  color: var(--black);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  font-family: Poppins, sans-serif;
+  color: var(--black);
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+button {
+  cursor: pointer;
+}
