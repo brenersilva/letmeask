@@ -1,12 +1,18 @@
+import Head from 'next/head';
 import { AuthContextProvider } from '../contexts/AuthContext';
 
 import '../styles/globals.scss';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <AuthContextProvider>
-      <Component {...pageProps} />
-    </AuthContextProvider>
+    <>
+      <Head>
+        <title>letmeask</title>
+      </Head>
+      <AuthContextProvider>
+        <Component {...pageProps} />
+      </AuthContextProvider>
+    </>
   )
 }
 

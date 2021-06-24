@@ -1,19 +1,24 @@
+import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { FiLogIn } from 'react-icons/fi';
+import { FaGoogle } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Button } from '../components/Button';
 
 import illustrationImg from '../../public/images/illustration.svg';
 import logoImg from '../../public/images/logo.svg';
-import googleIconImg from '../../public/images/google-icon.svg';
-import logInIconImg from '../../public/images/log-in.svg';
 
 import styles from './Home.module.scss';
 import { useAuth } from '../hooks/useAuth';
+import { database } from '../services/firebase';
 
 export default function Home() {
   const router = useRouter();
   const { user, signInWithGoogle } = useAuth();
+  const[roomCode, setRoomCode] = useState('');
 
   async function handleCreateRoom() {      
     if (!user) {
@@ -21,6 +26,22 @@ export default function Home() {
     }
     
     router.push('/rooms/new');
+  }
+
+  async function handleJoinRoom(event: FormEvent) {
+    event.preventDefault();
+
+    if (roomCode.trim() === '') {
+      return;
+    }
+
+    const roomRef = await database.ref(`rooms/${roomCode}`).get();
+
+    if (!roomRef.exists()) {
+      toast.error('Room does not exists...');
+      return;
+    }
+    router.push(`/rooms/${roomCode}`);
   }
 
   return (
@@ -36,6 +57,7 @@ export default function Home() {
         <p>Aprenda e compartilhe conhecimento com outras pessoas</p>
       </aside>
       <main>
+        <ToastContainer />
         <div className={styles.mainContent}>
           <Image
             className={styles.logo}
@@ -45,25 +67,19 @@ export default function Home() {
             objectFit="contain"
           />
           <button className={styles.createRoom} onClick={handleCreateRoom}>
-            <Image
-              height={24}
-              src={googleIconImg}
-              alt="Logo do Google"
-            />
+            <FaGoogle color="#FEFEFE" />
             Crie sua sala com o Google
           </button>
           <div className={styles.separator}>ou entre em uma sala</div>
-          <form>
+          <form onSubmit={handleJoinRoom}>
             <input
               type="text"
               placeholder="Digite o código da sala"
+              onChange={e => setRoomCode(e.target.value)}
+              value={roomCode}
               />
             <Button type="submit">
-              <Image
-                height={24}
-                src={logInIconImg}
-                alt="Log-in"
-              />
+              <FiLogIn color="#FEFEFE" />
               Entrar na sala
             </Button>
           </form>
